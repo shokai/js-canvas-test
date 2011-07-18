@@ -1,0 +1,15 @@
+!!! XHTML
+- @title = 'canvas sample'
+%html
+  %head
+    %title= @title
+    %meta{'http-equiv' => 'Content-Type', :content => 'text/html', :charset => 'UTF-8'}
+    %script{:type => 'text/javascript', :src => "jquery.js"}
+    %script{:type => 'text/javascript', :src => "main.js"}
+  %body
+    %h1= @title
+    %div
+      Image URL : 
+      %input{:id => 'img_url', :type => 'text', :value => './shokai-big.jpg', :size => '50'}
+      %input{:id => 'btn_draw', :type => 'button', :value => 'draw'}
+    %canvas#img
