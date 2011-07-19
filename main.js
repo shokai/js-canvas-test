@@ -1,29 +1,43 @@
 
 var ctx;
-var p_pos = { x : null, y : null};
+var sketch = {
+    p_pos : {
+        x : null,
+        y : null,
+        clear : function(){
+            this.x = null; 
+            this.y = null;
+        }
+    },
+    drawing : false
+}
 
 $(function(){
     draw_img('./shokai-big.jpg');
     $('input#btn_draw').click(function(){
         draw_img($('input#img_url').val());
     });
-    $('body').click(function(){
-        console.log('click');
+    $('body').mousedown(function(){
+        sketch.drawing = true;
     });
     $('body').mouseup(function(){
-        console.log('mouseup');
+        sketch.drawing = false;
+        sketch.p_pos.clear();
     });
     $('canvas#img').mousemove(function(e){
-        console.log(e.offsetX + ', ' + e.offsetY);
-        if(p_pos.x != null && p_pos.y != null){
+        if(!sketch.drawing) return;
+        var x = e.offsetX;
+        var y = e.offsetY;
+        console.log(x + ', ' + y);
+        if(sketch.p_pos.x && sketch.p_pos.y){
             ctx.beginPath();
-            ctx.moveTo(p_pos.x, p_pos.y);
-            ctx.lineTo(e.offsetX, e.offsetY);
+            ctx.moveTo(sketch.p_pos.x, sketch.p_pos.y);
+            ctx.lineTo(x, y);
             ctx.closePath();
             ctx.stroke();
         }
-        p_pos.x = e.offsetX;
-        p_pos.y = e.offsetY;
+        sketch.p_pos.x = x;
+        sketch.p_pos.y = y;
     });
 });
 
