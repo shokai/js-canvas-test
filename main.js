@@ -31,6 +31,7 @@ $(function(){
         var y = e.clientY - rect.top;
         console.log(x + ', ' + y);
         ctx.strokeStyle = '#FF0000';
+        ctx.lineWidth = 5;
         if(sketch.p_pos.x && sketch.p_pos.y){
             ctx.beginPath();
             ctx.moveTo(sketch.p_pos.x, sketch.p_pos.y);
