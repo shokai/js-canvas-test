@@ -17,7 +17,7 @@ $(function(){
     $('input#btn_draw').click(function(){
         draw_img($('input#img_url').val());
     });
-    $('body').mousedown(function(){
+    $('canvas#img').mousedown(function(){
         sketch.drawing = true;
     });
     $('body').mouseup(function(){
@@ -30,8 +30,9 @@ $(function(){
 		var x = e.clientX - rect.left;
         var y = e.clientY - rect.top;
         console.log(x + ', ' + y);
-        ctx.strokeStyle = '#FF0000';
-        ctx.lineWidth = 5;
+        ctx.strokeStyle = $('#stroke select#color').val();
+        ctx.lineWidth = $('#stroke select#size').val();
+        ctx.lineCap = 'square';
         if(sketch.p_pos.x && sketch.p_pos.y){
             ctx.beginPath();
             ctx.moveTo(sketch.p_pos.x, sketch.p_pos.y);
