@@ -13,3 +13,6 @@
       %input{:id => 'img_url', :type => 'text', :value => './shokai-big.jpg', :size => '50'}
       %input{:id => 'btn_draw', :type => 'button', :value => 'draw'}
     %canvas#img
+    %hr
+      - @src_url = 'https://github.com/shokai/js-canvas-test'
+      %a{:href => @src_url}= @src_url
