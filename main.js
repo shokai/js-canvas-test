@@ -13,6 +13,7 @@ var sketch = {
 };
 
 $(function(){
+    $('#stroke select#size').val(4);
     draw_img('./shokai-big.jpg');
     $('input#btn_draw').click(function(){
         draw_img($('input#img_url').val());
