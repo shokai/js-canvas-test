@@ -10,7 +10,7 @@ var sketch = {
         }
     },
     drawing : false
-}
+};
 
 $(function(){
     draw_img('./shokai-big.jpg');
@@ -26,9 +26,11 @@ $(function(){
     });
     $('canvas#img').mousemove(function(e){
         if(!sketch.drawing) return;
-        var x = e.offsetX;
-        var y = e.offsetY;
+		var rect = e.target.getBoundingClientRect();
+		var x = e.clientX - rect.left;
+        var y = e.clientY - rect.top;
         console.log(x + ', ' + y);
+        ctx.strokeStyle = '#FF0000';
         if(sketch.p_pos.x && sketch.p_pos.y){
             ctx.beginPath();
             ctx.moveTo(sketch.p_pos.x, sketch.p_pos.y);
@@ -51,3 +53,4 @@ var draw_img = function(img_url){
     };
     img.src = img_url;
 };
+
