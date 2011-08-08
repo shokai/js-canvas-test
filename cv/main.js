@@ -16,6 +16,8 @@ $(function(){
     $('#btn_binarize').click(binarize);
     make_btn('quantize').appendTo('#ctrls');
     $('#btn_quantize').click(quantize);
+    make_btn('detect_edge').appendTo('#ctrls');
+    $('#btn_detect_edge').click(detect_edge);
 });
 
 var canvas_init = function(){
@@ -71,4 +73,33 @@ var quantize = function(){
         img.data[i+2] = quant;
     }
     ctx.putImageData(img, 0, 0);
+};
+
+var detect_edge = function(){
+    var width = canvas[0].width;
+    var height = canvas[0].height;
+    var img = ctx.getImageData(0, 0, width, height);
+    var data_quant = new Array();
+    for(var i = 0; i < img.data.length; i+=4){
+        var r = img.data[i]&0xFF;
+        var g = img.data[i+1]&0xFF;
+        var b = img.data[i+2]&0xFF;
+        var gray = (r+g+b)/3;
+        data_quant.push(gray & 0xC0);
+    }
+
+    var img_edge = ctx.createImageData(width, height);
+    for(var y = 1; y < height-1; y++){
+        for(var x = 1; x < width-1; x++){
+            var i = y*width + x;
+            var around = (data_quant[i-width]+data_quant[i-1]+data_quant[i+1]+data_quant[i+width])/4;
+            var c = 255;
+            if(around < data_quant[i]) c = 0;
+            img_edge.data[i*4] = c;
+            img_edge.data[i*4+1] = c;
+            img_edge.data[i*4+2] = c;
+            img_edge.data[i*4+3] = 255;
+        }
+    }
+    ctx.putImageData(img_edge, 0, 0);
 };
