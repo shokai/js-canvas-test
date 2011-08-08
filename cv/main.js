@@ -14,6 +14,8 @@ $(function(){
     $('#btn_grayscale').click(grayscale);
     make_btn('binarize').appendTo('#ctrls');
     $('#btn_binarize').click(binarize);
+    make_btn('quantize').appendTo('#ctrls');
+    $('#btn_quantize').click(quantize);
 });
 
 var canvas_init = function(){
@@ -55,3 +57,18 @@ var binarize = function(){
     }
     ctx.putImageData(img, 0, 0);
 }
+
+var quantize = function(){
+    var img = ctx.getImageData(0, 0, canvas[0].width, canvas[0].height);
+    for(var i = 0; i < img.data.length; i+=4){
+        var r = img.data[i]&0xFF;
+        var g = img.data[i+1]&0xFF;
+        var b = img.data[i+2]&0xFF;
+        var gray = (r+g+b)/3;
+        var quant = gray & 0xC0;
+        img.data[i] = quant;
+        img.data[i+1] = quant;
+        img.data[i+2] = quant;
+    }
+    ctx.putImageData(img, 0, 0);
+};
