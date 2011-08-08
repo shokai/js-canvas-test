@@ -4,6 +4,16 @@ var make_btn = function(label){
 };
 
 $(function(){
+    canvas_init();
+
+
+    make_btn('reset').appendTo('#ctrls');
+    $('#btn_reset').click(canvas_init);
+    make_btn('grayscale').appendTo('#ctrls');
+    $('#btn_grayscale').click(grayscale);
+});
+
+var canvas_init = function(){
     var canvas = $('canvas#img');
     var ctx = canvas[0].getContext('2d');
     var img = new Image();
@@ -12,10 +22,7 @@ $(function(){
         ctx.drawImage(img, 0, 0, img.width, img.height);
     };
     img.src = '../shokai.png';
-    
-    make_btn('grayscale').appendTo('#ctrls');
-    $('#btn_grayscale').click(grayscale);
-});
+};
 
 var grayscale = function(){
     var canvas = $('canvas#img');
