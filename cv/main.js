@@ -11,14 +11,20 @@ $(function(){
     make_btn('reset').appendTo('#ctrls');
     $('#btn_reset').click(canvas_init);
     make_btn('grayscale').appendTo('#ctrls');
-    $('#btn_grayscale').click(grayscale);
+    $('#btn_grayscale').click(function(){benchmark(grayscale)});
     make_btn('binarize').appendTo('#ctrls');
-    $('#btn_binarize').click(binarize);
+    $('#btn_binarize').click(function(){benchmark(binarize)});
     make_btn('quantize').appendTo('#ctrls');
-    $('#btn_quantize').click(quantize);
+    $('#btn_quantize').click(function(){benchmark(quantize)});
     make_btn('detect_edge').appendTo('#ctrls');
-    $('#btn_detect_edge').click(detect_edge);
+    $('#btn_detect_edge').click(function(){benchmark(detect_edge)});
 });
+
+var benchmark = function(func){
+    var start = new Date().getTime();
+    func();
+    alert(new Date().getTime()-start+'(ms)')
+};
 
 var canvas_init = function(){
     canvas = $('canvas#img');
@@ -51,8 +57,8 @@ var binarize = function(){
         var r = img.data[i]&0xFF;
         var g = img.data[i+1]&0xFF;
         var b = img.data[i+2]&0xFF;
-        var bin = 0;
-        if((r+g+b)/3 > 128) bin = 255;
+        if((r+g+b)/3 > 128) var bin = 255;
+        else var bin = 0;
         img.data[i] = bin;
         img.data[i+1] = bin;
         img.data[i+2] = bin;
@@ -79,7 +85,7 @@ var detect_edge = function(){
     var width = canvas[0].width;
     var height = canvas[0].height;
     var img = ctx.getImageData(0, 0, width, height);
-    var data_quant = new Array();
+    var data_quant = [];
     for(var i = 0; i < img.data.length; i+=4){
         var r = img.data[i]&0xFF;
         var g = img.data[i+1]&0xFF;
@@ -93,8 +99,9 @@ var detect_edge = function(){
         for(var x = 1; x < width-1; x++){
             var i = y*width + x;
             var around = (data_quant[i-width]+data_quant[i-1]+data_quant[i+1]+data_quant[i+width])/4;
-            var c = 255;
-            if(around < data_quant[i]) c = 0;
+
+            if(around < data_quant[i]) var c = 0;
+            else var c = 255;
             img_edge.data[i*4] = c;
             img_edge.data[i*4+1] = c;
             img_edge.data[i*4+2] = c;
