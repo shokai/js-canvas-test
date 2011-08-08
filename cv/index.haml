@@ -1,0 +1,16 @@
+!!! XHTML
+- @title = 'canvas image processing'
+%html
+  %head
+    %title= @title
+    %meta{'http-equiv' => 'Content-Type', :content => 'text/html', :charset => 'UTF-8'}
+    %script{:type => 'text/javascript', :src => "../jquery.js"}
+    %script{:type => 'text/javascript', :src => "main.js"}
+  %body
+    %h1= @title
+    %div#ctrls
+    %div
+      %canvas#img
+    %hr
+      - @src_url = 'https://github.com/shokai/js-canvas-test'
+      %a{:href => @src_url}= @src_url
